@@ -1,4 +1,5 @@
 import LoginButton from './LoginButton'
+import { FaYoutube } from "react-icons/fa";
 
 export default function Navbar() {
   return (
@@ -7,12 +8,8 @@ export default function Navbar() {
         
         {/* Left: Logo */}
         <div className="flex items-center gap-3">
-          <img
-            src="https://www.youtube.com/s/desktop/fe2f8c56/img/favicon_144x144.png"
-            className="h-7"
-            alt="YouTube"
-          />
-          <span className="font-semibold text-lg">YouTube Studio</span>
+          <FaYoutube className="text-red-600 text-2xl" />
+          <span className="font-semibold text-lg">YouTube Companion</span>
         </div>
 
         {/* Right: Login */}
