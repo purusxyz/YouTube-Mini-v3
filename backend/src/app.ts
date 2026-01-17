@@ -1,7 +1,6 @@
 // src/app.ts
 import express from 'express'
 import cors from 'cors'
-import session from 'express-session'
 import cookieParser from 'cookie-parser'
 
 import authRoutes from './routes/auth.routes'
@@ -18,7 +17,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   process.env.FRONTEND_URL
-]
+].filter(Boolean)
 
 app.use(
   cors({
@@ -37,26 +36,8 @@ app.use(
 // 🧠 BODY PARSER
 // ===============================
 app.use(express.json())
-
-// ===============================
-// 🔐 SESSION (MUST BE BEFORE ROUTES)
-// ===============================
-// app.use(
-//   session({
-//     name: 'youtube-mini.sid',
-//     secret: process.env.SESSION_SECRET || 'youtube-mini-secret',
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       httpOnly: true,
-//       secure: false, // ✅ true only in HTTPS
-//       sameSite: 'lax'
-//     }
-//   })
-// )
-
-
 app.use(cookieParser())
+
 // ===============================
 // 🚀 ROUTES
 // ===============================
