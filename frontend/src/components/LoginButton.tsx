@@ -1,7 +1,9 @@
 export default function LoginButton() {
   const login = () => {
-    window.location.href = 'http://localhost:5000/auth/google'
-  }
+    // use VITE_API_URL from environment variables
+    const baseURL = import.meta.env.VITE_API_URL;
+    window.location.href = `${baseURL}/auth/google`;
+  };
 
   return (
     <button
@@ -10,5 +12,5 @@ export default function LoginButton() {
     >
       Sign in with Google
     </button>
-  )
+  );
 }
