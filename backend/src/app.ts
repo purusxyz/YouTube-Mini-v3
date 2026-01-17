@@ -3,10 +3,10 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import authRoutes from './routes/auth.routes'
-import videoRoutes from './routes/video.routes'
-import commentRoutes from './routes/comment.routes'
-import noteRoutes from './routes/note.routes'
+import authRoutes from './routes/auth.routes.js'
+import videoRoutes from './routes/video.routes.js'
+import commentRoutes from './routes/comment.routes.js'
+import noteRoutes from './routes/note.routes.js'
 
 const app = express()
 
