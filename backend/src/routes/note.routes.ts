@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { Note } from '../models/Note'
+import { Note } from '../models/Note.js'
 import { eventLoggerMiddleware } from '../middleware/eventLogger.middleware.js'
 
 const router = Router()

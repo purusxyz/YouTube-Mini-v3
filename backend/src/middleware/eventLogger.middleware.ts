@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { logEvent } from '../utils/eventLogger'
+import { logEvent } from '../utils/eventLogger.js'
 
 export const eventLoggerMiddleware =
   (action: string, getVideoId?: (req: Request) => string | undefined) =>

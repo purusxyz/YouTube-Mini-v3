@@ -1,4 +1,4 @@
-import { EventLog } from '../models/EventLog'
+import { EventLog } from '../models/EventLog.js'
 
 interface LogParams {
   action: string
