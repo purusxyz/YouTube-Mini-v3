@@ -1,6 +1,6 @@
 export default function LoginButton() {
   const login = () => {
-    // use VITE_API_URL from environment variables
+  
     const baseURL = import.meta.env.VITE_API_URL;
     window.location.href = `${baseURL}/auth/google`;
   };
