@@ -3,12 +3,18 @@ import { createOAuthClient, getAuthUrl } from '../services/googleAuth.js'
 
 const router = Router()
 
+const FRONTEND_URL = process.env.FRONTEND_URL as string
+
+if (!FRONTEND_URL) {
+  throw new Error('❌ FRONTEND_URL is not defined in environment variables')
+}
+
 // ===============================
 // STEP 1: Redirect to Google OAuth
 // ===============================
 router.get('/google', (_req, res) => {
   const url = getAuthUrl()
-  console.log('OAUTH URL SENT TO BROWSER:', url)
+  console.log('🔐 Redirecting to Google OAuth:', url)
   res.redirect(url)
 })
 
@@ -30,21 +36,21 @@ router.get('/google/callback', async (req, res) => {
     const { tokens } = await oauth2Client.getToken(code)
     oauth2Client.setCredentials(tokens)
 
-    // ✅ STORE TOKENS IN SESSION (SOURCE OF TRUTH)
-   res.cookie('tokens', JSON.stringify(tokens), {
-  httpOnly: true,
-  secure: true,
-  sameSite: 'none',
-})
+    // 🍪 Store tokens securely in cookie
+    res.cookie('tokens', JSON.stringify(tokens), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    })
 
+    console.log('✅ Google OAuth success – tokens stored')
 
-    console.log('✅ Google OAuth success – tokens stored in session')
-
-    // 🔄 Redirect back to frontend
-    res.redirect('http://localhost:5173')
+    // 🔄 Redirect to correct frontend (LOCAL or PROD)
+    res.redirect(FRONTEND_URL)
   } catch (err) {
     console.error('❌ Google OAuth Error:', err)
-    res.status(500).send('Google OAuth failed')
+    res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`)
   }
 })
 
@@ -53,23 +59,21 @@ router.get('/google/callback', async (req, res) => {
 // ===============================
 router.get('/status', (req, res) => {
   res.json({
-    authenticated: Boolean(req.cookies?.tokens)
+    authenticated: Boolean(req.cookies?.tokens),
   })
 })
 
 // ===============================
 // 🚪 LOGOUT
 // ===============================
-router.post('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error('Logout error:', err)
-      return res.status(500).json({ error: 'Logout failed' })
-    }
-
-    res.clearCookie('connect.sid')
-    res.json({ success: true })
+router.post('/logout', (_req, res) => {
+  res.clearCookie('tokens', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
   })
+
+  res.json({ success: true })
 })
 
 export default router
