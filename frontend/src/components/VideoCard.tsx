@@ -124,7 +124,7 @@ export default function VideoCard() {
       {/* Description */}
       {authenticated ? (
         <textarea
-          className="w-full bg-black p-3 rounded min-h-[120px] outline-none focus:ring-1 focus:ring-red-500"
+          className="w-full bg-black p-3 rounded min-h-30 outline-none focus:ring-1 focus:ring-red-500"
           value={description}
           onChange={e => setDescription(e.target.value)}
         />
