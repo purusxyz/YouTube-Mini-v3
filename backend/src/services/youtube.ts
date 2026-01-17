@@ -1,6 +1,6 @@
 import { google, youtube_v3 } from 'googleapis'
 import { Request } from 'express'
-import { createOAuthClient } from './googleAuth'
+import { createOAuthClient } from './googleAuth.js'
 
 export const getYoutubeClient = (req: Request): youtube_v3.Youtube => {
   // 🔐 HARD AUTH GUARANTEE
